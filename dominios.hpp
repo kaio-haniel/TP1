@@ -1,0 +1,96 @@
+#ifndef DOMINIOS_HPP
+#define DOMINIOS_HPP
+#include <string>
+//Domínio-Codigo:
+class Codigo{
+private:
+    static const int LIMITE = 5;
+    bool validar(std::string);
+    std::string Code;
+public:
+    std::string getCode()const;
+    bool setCode(std::string);
+};
+//Metodos-Codigo:
+inline std::string Codigo::getCode()const{
+    return Code;
+}
+
+//Domínio-Senha:
+class Senha{
+private:
+    static const int LIMITE = 6;
+    std::string senha;
+    bool validar(std::string);
+public:
+    std::string getSenha()const;
+    bool setSenha(std::string);
+};
+//Metodos-Senha:
+inline std::string Senha::getSenha()const{
+    return senha;
+}
+
+//Domínio-Tempo:
+class Tempo{
+private:
+    static const int max_t = 365, min_t = 0;
+    int duracao;
+    bool validar(int);
+public:
+    bool setDuracao(int);
+    int getDuracao()const;
+};
+//Metodos-Tempo:
+inline int Tempo::getDuracao()const{
+    return duracao;
+}
+
+//Domínio-Texto:
+class Texto{
+private:
+    static const int LIMITE = 40;
+    std::string texto;
+    bool validar(std::string);
+public:
+    bool setTexto(std::string);
+    std::string getTexto();
+};
+//Metodos-Texto:
+inline std::string Texto::getTexto(){
+    return texto;
+}
+//Dominio-Data:
+class Data{
+private:
+    int dia, mes, ano;
+    std::string data;
+    bool bissexto;
+    bool validar(std::string);
+public:
+    bool setDia(int);
+    bool setMes(int);
+    bool setAno(int);
+    bool setData(std::string);
+    std::string getData();
+};
+//Metodos-Data:
+inline std::string Data::getData(){
+    return data;
+}
+//Dominio-Estado:
+class Estado{
+private:
+    int escolha;
+    std::string estado;
+    bool validar(int);
+    static const int LIMITE = 3;
+public:
+    bool setEstado(int);
+    std::string getEstado();
+};
+//Metodos-Estado:
+inline std::string Estado::getEstado(){
+    return estado;
+}
+#endif
