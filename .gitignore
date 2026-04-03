@@ -39,3 +39,9 @@
 
 # debug information files
 *.dwo
+
+# Code::Blocks specific
+bin/
+obj/
+*.layout
+*.depend
