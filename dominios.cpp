@@ -170,3 +170,59 @@ bool Estado::setEstado(int escolha){
     }
     return true;
 }
+//Metodos-Prioridade:
+
+bool prioridade::validar(int valor){
+    if(valor < 1  valor > LIMITE){
+        return false;
+    }
+    return true;
+}
+bool prioridade::setPrio(int valor){
+    if(!validar(valor)){
+        cout << "Escolha invalida" << endl;
+        return false;
+    }
+    this->valor = valor;
+    switch(valor){
+        case 1: this->prio = "ALTA"; break;
+        case 2: this->prio = "MEDIA"; break;
+        case 3: this->prio = "BAIXA"; break;
+    }
+    return true;
+}
+//Metodos-Papel:
+
+bool Papel::validar(int valor){
+    if(valor < 1  valor > LIMITE){
+        return false;
+    }
+    return true;
+}
+bool Papel::setEscolha_papel(int valor){
+    if(!validar(valor)){
+        cout << "Escolha invalida" << endl;
+        return false;
+    }
+    this->valor = valor;
+    switch(valor){
+        case 1: this->escolha_papel = "DESENVOLVEDOR"; break;
+        case 2: this->escolha_papel = "MESTRE SCRUM"; break;
+        case 3: this->escolhapapel = "PROPIETARIO DE PRODUTO"; break;
+    }
+    return true;
+}
+
+//Metodos-Nome
+bool Nome::validar(string nome){
+    if(nome.size() > LIMITE) {return false;}
+    if((nome[0] == ' ') || (nome[10]== ' ')) cout <<"valor invalido";
+
+    return true;
+}
+bool Nome::setNome(string nome){
+    if(!validar(nome)) {return false;
+    }
+    this->nome = nome;
+    return true;
+}

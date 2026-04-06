@@ -93,4 +93,49 @@ public:
 inline std::string Estado::getEstado(){
     return estado;
 }
+//Dominio-Prioridade:
+class prioridade{
+ private:
+    std::string prio;
+     static const int LIMITE = 3;
+     int valor;
+     bool validar(int);
+ public:
+     bool setPrio(int);
+
+    std::string getPrio();
+
+};
+//Metodos-Prioridade:
+ inline std::string prioridade::getPrio(){
+    return prio;}
+//Dominio-Papel:
+class Papel{
+ private:
+    std::string escolha_papel;
+     static const int LIMITE = 3;
+     int valor;
+     bool validar(int);
+ public:
+     bool setEscolha_papel(int);
+
+    std::string getEscolha_papel();
+
+};
+//Metodos-Papel:
+ inline std::string Papel::getEscolha_papel(){
+    return escolhapapel;}
+//Dominio-Nome:
+class Nome{
+private:
+    static const int LIMITE = 10;
+    bool validar(std::string);
+    std::string nome;
+public:
+    std::string getNome();
+    bool setNome_(std::string);
+};
+//Metodos-Nome:
+ inline std::string Nome::getNome(){
+    return nome;}
 #endif
