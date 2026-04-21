@@ -1,44 +1,45 @@
 #ifndef DOMINIOS_HPP
 #define DOMINIOS_HPP
 #include <string>
-//Domínio-Codigo:
+
+//DomÃ­nio-Codigo:
 class Codigo{
 private:
     static const int LIMITE = 5;
-    bool validar(std::string);
+    void validar(std::string);
     std::string Code;
 public:
     std::string getCode()const;
-    bool setCode(std::string);
+    void setCode(std::string);
 };
 //Metodos-Codigo:
 inline std::string Codigo::getCode()const{
     return Code;
 }
 
-//Domínio-Senha:
+//DomÃ­nio-Senha:
 class Senha{
 private:
     static const int LIMITE = 6;
     std::string senha;
-    bool validar(std::string);
+    void validar(std::string);
 public:
     std::string getSenha()const;
-    bool setSenha(std::string);
+    void setSenha(std::string);
 };
 //Metodos-Senha:
 inline std::string Senha::getSenha()const{
     return senha;
 }
 
-//Domínio-Tempo:
+//DomÃ­nio-Tempo:
 class Tempo{
 private:
     static const int max_t = 365, min_t = 0;
     int duracao;
-    bool validar(int);
+    void validar(int);
 public:
-    bool setDuracao(int);
+    void setDuracao(int);
     int getDuracao()const;
 };
 //Metodos-Tempo:
@@ -46,20 +47,21 @@ inline int Tempo::getDuracao()const{
     return duracao;
 }
 
-//Domínio-Texto:
+//DomÃ­nio-Texto:
 class Texto{
 private:
     static const int LIMITE = 40;
     std::string texto;
-    bool validar(std::string);
+    void validar(std::string);
 public:
-    bool setTexto(std::string);
-    std::string getTexto();
+    void setTexto(std::string);
+    std::string getTexto()const;
 };
 //Metodos-Texto:
-inline std::string Texto::getTexto(){
+inline std::string Texto::getTexto()const{
     return texto;
 }
+
 //Dominio-Data:
 class Data{
 private:
@@ -68,6 +70,11 @@ private:
     bool bissexto;
     bool validar(std::string);
 public:
+    bool operator<(const Data& outro) const{
+        if(ano != outro.ano) return ano < outro.ano;
+        if(mes != outro.mes) return mes < outro.mes;
+        return dia < outro.dia;
+    }
     bool setDia(int);
     bool setMes(int);
     bool setAno(int);
@@ -78,6 +85,7 @@ public:
 inline std::string Data::getData(){
     return data;
 }
+
 //Dominio-Estado:
 class Estado{
 private:
@@ -93,8 +101,9 @@ public:
 inline std::string Estado::getEstado(){
     return estado;
 }
+
 //Dominio-Prioridade:
-class prioridade{
+class Prioridade{
  private:
     std::string prio;
      static const int LIMITE = 3;
@@ -107,8 +116,10 @@ class prioridade{
 
 };
 //Metodos-Prioridade:
- inline std::string prioridade::getPrio(){
-    return prio;}
+ inline std::string Prioridade::getPrio(){
+    return prio;
+}
+
 //Dominio-Papel:
 class Papel{
  private:
@@ -124,18 +135,20 @@ class Papel{
 };
 //Metodos-Papel:
  inline std::string Papel::getEscolha_papel(){
-    return escolhapapel;}
+    return escolha_papel;
+}
 //Dominio-Nome:
 class Nome{
 private:
     static const int LIMITE = 10;
-    bool validar(std::string);
     std::string nome;
+    bool validar(std::string);
 public:
+    bool setNome(std::string);
     std::string getNome();
-    bool setNome_(std::string);
 };
 //Metodos-Nome:
  inline std::string Nome::getNome(){
-    return nome;}
+    return nome;
+}
 #endif
