@@ -13,9 +13,9 @@ public:
     Codigo getCodigo()const;
     Texto getObjetivo()const;
     Tempo getCapacidade()const;
-    void setCodigo(Codigo);
-    void setObjetivo(Texto);
-    void setCapacidade(Tempo);
+    void setCodigo(const Codigo&);
+    void setObjetivo(const Texto&);
+    void setCapacidade(const Tempo&);
 };
 //Metodos Plano_de_Sprint:
 inline Codigo Plano_de_Sprint::getCodigo()const{
@@ -27,13 +27,13 @@ inline Texto Plano_de_Sprint::getObjetivo()const{
 inline Tempo Plano_de_Sprint::getCapacidade()const{
     return capacidade;
 }
-inline void Plano_de_Sprint::setCodigo(Codigo codigo){
+inline void Plano_de_Sprint::setCodigo(const Codigo& codigo){
     this->codigo = codigo;
 }
-inline void Plano_de_Sprint::setObjetivo(Texto texto){
+inline void Plano_de_Sprint::setObjetivo(const Texto& texto){
     this->objetivo = texto;
 }
-inline void Plano_de_Sprint::setCapacidade(Tempo tempo){
+inline void Plano_de_Sprint::setCapacidade(const Tempo& tempo){
     this->capacidade = tempo;
 }
 
@@ -57,14 +57,14 @@ public:
     Tempo getEstimativa()const;
     Prioridade getPrioridade()const;
     Estado getEstado()const;
-    void setCodigo(Codigo);
-    void setTitulo(Texto);
-    void setPapel(Texto);
-    void setAcao(Texto);
-    void setValor(Texto);
-    void setEstimativa(Tempo);
-    void setPrioridade(Prioridade);
-    void setEstado(Estado);
+    void setCodigo(const Codigo&);
+    void setTitulo(const Texto&);
+    void setPapel(const Texto&);
+    void setAcao(const Texto&);
+    void setValor(const Texto&);
+    void setEstimativa(const Tempo&);
+    void setPrioridade(const Prioridade&);
+    void setEstado(const Estado&);
 };
 //Metodos Historia_de_usuario:
 inline Codigo Historia_de_usuario::getCodigo()const{
@@ -91,28 +91,28 @@ inline Prioridade Historia_de_usuario::getPrioridade()const{
 inline Estado Historia_de_usuario::getEstado()const{
     return estado;
 }
-inline void Historia_de_usuario::setCodigo(Codigo codigo){
+inline void Historia_de_usuario::setCodigo(const Codigo& codigo){
     this->codigo = codigo;
 }
-inline void Historia_de_usuario::setTitulo(Texto titulo){
+inline void Historia_de_usuario::setTitulo(const Texto& titulo){
     this->titulo = titulo;
 }
-inline void Historia_de_usuario::setPapel(Texto papel){
+inline void Historia_de_usuario::setPapel(const Texto& papel){
     this->papel = papel;
 }
-inline void Historia_de_usuario::setAcao(Texto acao){
+inline void Historia_de_usuario::setAcao(const Texto& acao){
     this->acao = acao;
 }
-inline void Historia_de_usuario::setValor(Texto valor){
+inline void Historia_de_usuario::setValor(const Texto& valor){
     this->valor = valor;
 }
-inline void Historia_de_usuario::setEstimativa(Tempo tempo){
+inline void Historia_de_usuario::setEstimativa(const Tempo& tempo){
     this->estimativa = tempo;
 }
-inline void Historia_de_usuario::setPrioridade(Prioridade prio){
+inline void Historia_de_usuario::setPrioridade(const Prioridade& prio){
     this->prioridade = prio;
 }
-inline void Historia_de_usuario::setEstado(Estado estado){
+inline void Historia_de_usuario::setEstado(const Estado& estado){
     this->estado = estado;
 }
 
@@ -124,8 +124,8 @@ private:
     Data inicio, termino;
     void validarData(const Data&, const Data&);
 public:
-    void setCodigo(Codigo);
-    void setNome(Nome);
+    void setCodigo(const Codigo&);
+    void setNome(const Nome&);
     void setData(Data, Data);
     Codigo getCodigo() const;
     Nome getNome() const;
@@ -137,15 +137,15 @@ void Projeto::validarData(const Data& inicio, const Data& termino){
     if(termino<inicio)
         throw invalid_argument("Data invalida: o termino nao pode ser antes do inicio.");
 }
-void Projeto::setData(Data inicio, Data termino){
+void Projeto::setData(const Data& inicio, const Data& termino){
     validarData(inicio, termino);
     this->inicio = inicio;
     this->termino = termino;
 }
-inline void Projeto::setCodigo(Codigo codigo){
+inline void Projeto::setCodigo(const Codigo& codigo){
     this->codigo = codigo;
 }
-inline void Projeto::setNome(Nome nome){
+inline void Projeto::setNome(const Nome& nome){
     this->nome = nome;
 }
 inline Codigo Projeto::getCodigo() const{
@@ -167,23 +167,29 @@ private:
     Nome nome;
     Senha senha;
     Papel papel;
+    Email email;
 public:
-    void setNome(Nome);
-    void setSenha(Senha);
-    void setPapel(Papel);
+    void setNome(const Nome&);
+    void setSenha(const Senha&);
+    void setPapel(const Papel&);
+    void setEmail(const Email&);
     Nome getNome() const;
     Senha getSenha() const;
     Papel getPapel() const;
+    Email getEmail() const;
 };
 //Metodos Pessoa:
-inline void Pessoa::setNome(Nome nome){
+inline void Pessoa::setNome(const Nome& nome){
     this->nome = nome;
 }
-inline void Pessoa::setSenha(Senha senha){
+inline void Pessoa::setSenha(const Senha& senha){
     this->senha = senha;
 }
-inline void Pessoa::setPapel(Papel papel){
+inline void Pessoa::setPapel(const Papel& papel){
     this->papel = papel;
+}
+inline void Pessoa::setEmail(const Email& email){
+    this->email = email;
 }
 inline Nome Pessoa::getNome() const{
     return nome;
@@ -193,4 +199,7 @@ inline Senha Pessoa::getSenha() const{
 }
 inline Papel Pessoa::getPapel() const{
     return papel;
+}
+inline Email Pessoa::getEmail() const{
+    return email;
 }

@@ -1,6 +1,7 @@
 #ifndef DOMINIOS_HPP
 #define DOMINIOS_HPP
 #include <string>
+#include <stdexcept>
 
 //Domínio-Codigo:
 class Codigo{
@@ -68,21 +69,20 @@ private:
     int dia, mes, ano;
     std::string data;
     bool bissexto;
-    bool validar(std::string);
 public:
     bool operator<(const Data& outro) const{
         if(ano != outro.ano) return ano < outro.ano;
         if(mes != outro.mes) return mes < outro.mes;
         return dia < outro.dia;
     }
-    bool setDia(int);
-    bool setMes(int);
-    bool setAno(int);
-    bool setData(std::string);
-    std::string getData();
+    void setDia(int);
+    void setMes(int);
+    void setAno(int);
+    void setData(std::string);
+    std::string getData()const;
 };
 //Metodos-Data:
-inline std::string Data::getData(){
+inline std::string Data::getData()const{
     return data;
 }
 
@@ -91,14 +91,14 @@ class Estado{
 private:
     int escolha;
     std::string estado;
-    bool validar(int);
+    void validar(int);
     static const int LIMITE = 3;
 public:
-    bool setEstado(int);
-    std::string getEstado();
+    void setEstado(int);
+    std::string getEstado()const;
 };
 //Metodos-Estado:
-inline std::string Estado::getEstado(){
+inline std::string Estado::getEstado()const{
     return estado;
 }
 
@@ -108,15 +108,15 @@ class Prioridade{
     std::string prio;
      static const int LIMITE = 3;
      int valor;
-     bool validar(int);
+     void validar(int);
  public:
-     bool setPrio(int);
+     void setPrio(int);
 
-    std::string getPrio();
+    std::string getPrio()const;
 
 };
 //Metodos-Prioridade:
- inline std::string Prioridade::getPrio(){
+ inline std::string Prioridade::getPrio()const{
     return prio;
 }
 
@@ -126,15 +126,15 @@ class Papel{
     std::string escolha_papel;
      static const int LIMITE = 3;
      int valor;
-     bool validar(int);
+     void validar(int);
  public:
-     bool setEscolha_papel(int);
+     void setEscolha_papel(int);
 
-    std::string getEscolha_papel();
+    std::string getEscolha_papel()const;
 
 };
 //Metodos-Papel:
- inline std::string Papel::getEscolha_papel(){
+ inline std::string Papel::getEscolha_papel()const{
     return escolha_papel;
 }
 //Dominio-Nome:
@@ -142,13 +142,30 @@ class Nome{
 private:
     static const int LIMITE = 10;
     std::string nome;
-    bool validar(std::string);
+    void validar(std::string);
 public:
-    bool setNome(std::string);
-    std::string getNome();
+    void setNome(std::string);
+    std::string getNome()const;
 };
 //Metodos-Nome:
- inline std::string Nome::getNome(){
+ inline std::string Nome::getNome()const{
     return nome;
+}
+//Dominio-Email:
+class Email{
+
+private:
+    static const int LIMITE_LOCAL = 64;
+    static const int LIMITE_DOMINIO = 255;
+    std::string email;
+    void validar(std::string);
+
+public:
+    std::string getEmail() const;
+    void setEmail(std::string);
+};
+
+inline std::string Email::getEmail() const {
+    return email;
 }
 #endif
