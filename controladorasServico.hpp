@@ -1,5 +1,5 @@
-#ifndef CONTROLADORASSERVICO_HPP
-#define CONTROLADORASSERVICO_HPP
+#ifndef CONTROLADORASSERVICO_HPP_INCLUDED
+#define CONTROLADORASSERVICO_HPP_INCLUDED
 
 #include "interfaces.hpp"
 
@@ -21,48 +21,51 @@ inline bool CntrServicoAutenticacao::autenticar(const Email& email, const Senha&
     return (cntrBancoDados->DadosAutenticacao(email, senha) == 1);
 }
 
-// ===================== GESTAO DE PESSOA =====================
-/// Controladora de servico para gestao de Pessoa. Delega ao banco de dados.
-class CntrServicoPessoa : public ISPessoa {
+// ===================== SERVIÇO DE GESTAO =====================
+/// Controladora de servico para gestao. Delega ao banco de dados.
+class CntrServicoGestao : public ISGestao {
 private:
     IBancoDados* cntrBancoDados;
 public:
     void setCntrBancoDados(IBancoDados*);
-    bool criar(const Pessoa&) override;
-    bool ler(Pessoa&) override;
-    bool atualizar(const Pessoa&) override;
-    bool excluir(const Email&) override;
+
+    bool lerConta(Pessoa& p)             override { return cntrBancoDados->lerConta(p);}
+    bool atualizarConta(const Pessoa& p) override { return cntrBancoDados->atualizarConta(p); }
+    bool excluirConta(const Email& e)    override { return cntrBancoDados->excluirConta(e); }
+
+    bool criarProjeto(const Projeto& p, const Email& e)    override { return cntrBancoDados->criarProjeto(p, e); }
+    bool lerProjeto(Projeto& p)                            override { return cntrBancoDados->lerProjeto(p); }
+    bool atualizarProjeto(const Projeto& p)                override { return cntrBancoDados->atualizarProjeto(p); }
+    bool excluirProjeto(const Codigo& c)                   override { return cntrBancoDados->excluirProjeto(c); }
+    bool listarProjetos(const Email& e)                    override { return cntrBancoDados->listarProjetos(e); }
+
+    bool criarSprint(const Plano_de_Sprint& s, const Codigo& c)    override { return cntrBancoDados->criarSprint(s, c); }
+    bool lerSprint(Plano_de_Sprint& s)                             override { return cntrBancoDados->lerSprint(s); }
+    bool atualizarSprint(const Plano_de_Sprint& s)                 override { return cntrBancoDados->atualizarSprint(s); }
+    bool excluirSprint(const Codigo& c)                            override { return cntrBancoDados->excluirSprint(c); }
+    bool listarSprint(const Codigo& c)                             override { return cntrBancoDados->listarSprint(c); }
+
+    bool criarHistoria(const Historia_de_usuario& h, const Codigo& c)    override { return cntrBancoDados->criarHistoria(h, c); }
+    bool lerHistoria(Historia_de_usuario& h)                             override { return cntrBancoDados->lerHistoria(h); }
+    bool atualizarHistoria(const Historia_de_usuario& h)                 override { return cntrBancoDados->atualizarHistoria(h); }
+    bool excluirHistoria(const Codigo& c)                                override { return cntrBancoDados->excluirHistoria(c); }
+    bool relacaoHis_Pes(const Email& e, const Codigo& c, int num)        override { return cntrBancoDados->relacaoHis_Pes(e, c, num); }
+    bool listarHist(const Codigo& c, int num) override {
+        switch(num){
+            case 1: return cntrBancoDados->listarHistP(c);
+            case 2: return cntrBancoDados->listarHistS(c);
+        }
+        return false;
+    }
+    bool listarHist(const Email& e)                                      override { return cntrBancoDados->listarHistE(e); }
+    bool moverHisProj_Sprint(const Codigo& s, const Codigo& h)           override { return cntrBancoDados->moverHisProj_Sprint(s, h); }
+    bool atualizarEstado(const Estado& e, const Codigo& c)               override { return cntrBancoDados->atualizarEstado(e, c); }
 };
 
-inline void CntrServicoPessoa::setCntrBancoDados(IBancoDados* cntr){
+inline void CntrServicoGestao::setCntrBancoDados(IBancoDados* cntr){
     cntrBancoDados = cntr;
 }
-inline bool CntrServicoPessoa::criar(const Pessoa& p){ return cntrBancoDados->criar(p); }
-inline bool CntrServicoPessoa::ler(Pessoa& p){ return cntrBancoDados->ler(p); }
-inline bool CntrServicoPessoa::atualizar(const Pessoa& p){ return cntrBancoDados->atualizar(p); }
-inline bool CntrServicoPessoa::excluir(const Email& e){ return cntrBancoDados->excluir(e); }
-class CntrServicoProjeto : public ISProjeto {
-private:
-    IBancoDados* cntrBancoDados;
-public:
-    void setCntrBancoDados(IBancoDados* cntr){ cntrBancoDados = cntr; }
-    bool criar(const Projeto& p)    override { return cntrBancoDados->criarProjeto(p); }
-    bool ler(Projeto& p)            override { return cntrBancoDados->lerProjeto(p); }
-    bool atualizar(const Projeto& p)override { return cntrBancoDados->atualizarProjeto(p); }
-    bool excluir(const Codigo& c)   override { return cntrBancoDados->excluirProjeto(c); }
-};
-// ===================== PLANO DE SPRINT =====================
-/// Controladora de servico para gestao de Plano de Sprint. Delega ao banco.
-class CntrServicoPlanoSprint : public ISPlanoSprint {
-private:
-    IBancoDados* cntrBancoDados;
-public:
-    void setCntrBancoDados(IBancoDados* cntr){ cntrBancoDados = cntr; }
-    bool criar(const Plano_de_Sprint& s)    override { return cntrBancoDados->criarSprint(s); }
-    bool ler(Plano_de_Sprint& s)            override { return cntrBancoDados->lerSprint(s); }
-    bool atualizar(const Plano_de_Sprint& s)override { return cntrBancoDados->atualizarSprint(s); }
-    bool excluir(const Codigo& c)           override { return cntrBancoDados->excluirSprint(c); }
-};
+
 // ===================== CADASTRO =====================
 /// Controladora de servico para cadastro. Delega ao banco de dados.
 class CntrServicoCadastro : public ISCadastro {
@@ -74,17 +77,5 @@ public:
         return cntrBancoDados->DadosCadastro(n, e, s, p);
     }
 };
-// ===================== HISTORIA DE USUARIO =====================
-/// Controladora de servico para gestao de Historia de Usuario. Delega ao banco.
-class CntrServicoHistoria : public ISHistoria {
-private:
-    IBancoDados* cntrBancoDados;
-public:
-    void setCntrBancoDados(IBancoDados* cntr){ cntrBancoDados = cntr; }
-    bool criar(const Historia_de_usuario& h)    override { return cntrBancoDados->criarHistoria(h); }
-    bool ler(Historia_de_usuario& h)            override { return cntrBancoDados->lerHistoria(h); }
-    bool atualizar(const Historia_de_usuario& h)override { return cntrBancoDados->atualizarHistoria(h); }
-    bool excluir(const Codigo& c)               override { return cntrBancoDados->excluirHistoria(c); }
-};
 
-#endif // CONTROLADORASSERVICO_HPP
+#endif // CONTROLADORASSERVICO_HPP_INCLUDED

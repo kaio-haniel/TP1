@@ -1,3 +1,6 @@
+#ifndef ENTIDADES_HPP_INCLUDED
+#define ENTIDADES_HPP_INCLUDED
+
 #include <iostream>
 #include "dominios.hpp"
 
@@ -363,11 +366,11 @@ public:
     Data getTermino() const;
 };
 //Metodos Projeto:
-void Projeto::validarData(const Data& inicio, const Data& termino){
+inline void Projeto::validarData(const Data& inicio, const Data& termino){
     if(termino<inicio)
         throw invalid_argument("Data invalida: o termino nao pode ser antes do inicio.");
 }
-void Projeto::setData(const Data& inicio, const Data& termino){
+inline void Projeto::setData(const Data& inicio, const Data& termino){
     validarData(inicio, termino);
     this->inicio = inicio;
     this->termino = termino;
@@ -497,3 +500,5 @@ inline Papel Pessoa::getPapel() const{
 inline Email Pessoa::getEmail() const{
     return email;
 }
+
+#endif // ENTIDADES_HPP_INCLUDED

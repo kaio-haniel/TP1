@@ -3,7 +3,6 @@
 
 
 #include "Entidades.hpp"
-#include "dominios.hpp"
 #include <stdexcept>
 
 
@@ -69,12 +68,12 @@ public:
 
 
 ///
-/// Interface de pessoa da camada de apresentação.
+/// Interface de gestao da camada de apresentação.
 ///
 /// Recebe as ações feitas pelo usuário e solicita à camada de serviço que as processe.
 ///
 
-class IAPessoa{
+class IAGestao{
 public:
 
 ///
@@ -89,7 +88,7 @@ public:
 /// Método destrutor virtual da interface.
 ///
 
-    virtual ~IAPessoa(){}
+    virtual ~IAGestao(){}
 };
 
 
@@ -159,12 +158,12 @@ public:
 
 
 ///
-/// Interface de pessoa da camada de serviço.
+/// Interface de gestao da camada de serviço.
 ///
 /// Executa e processa as ações do usuário.
 ///
 
-class ISPessoa{
+class ISGestao{
 public:
 
 ///
@@ -178,7 +177,10 @@ public:
 /// - Retorna false caso (Projeto, Plano de Sprint ou Historia de Usuário) ja existir ou o papel (role) do usuário não tiver a permissão de criar.
 ///
 
-    virtual bool criar(const Pessoa&) = 0;
+    virtual bool criarProjeto(const Projeto&, const Email&) = 0;
+    virtual bool criarSprint(const Plano_de_Sprint&, const Codigo&) = 0;
+    virtual bool criarHistoria(const Historia_de_usuario&, const Codigo&) = 0;
+
 
 ///
 /// Executa a ação de ler do usuário.
@@ -191,7 +193,9 @@ public:
 /// - Retorna false caso (Projeto, Plano de Sprint ou Historia de Usuário) não existir ou o papel (role) do usuário não tiver a permissão de ler.
 ///
 
-    virtual bool ler(Pessoa&) = 0;
+    virtual bool lerProjeto(Projeto&) = 0;
+    virtual bool lerSprint(Plano_de_Sprint&) = 0;
+    virtual bool lerHistoria(Historia_de_usuario&) = 0;
 
 ///
 /// Executa a ação de atualizar do usuário.
@@ -204,7 +208,10 @@ public:
 /// - Retorna false caso (Projeto, Plano de Sprint ou Historia de Usuário) não existir ou caso o papel (role) do usuário não tiver a permissão de atualizar.
 ///
 
-    virtual bool atualizar(const Pessoa&) = 0;
+
+    virtual bool atualizarProjeto(const Projeto&) = 0;
+    virtual bool atualizarSprint(const Plano_de_Sprint&) = 0;
+    virtual bool atualizarHistoria(const Historia_de_usuario&) = 0;
 
 ///
 /// Executa a ação de excluir do usuário.
@@ -217,13 +224,74 @@ public:
 /// - Retorna false caso (Projeto, Plano de Sprint ou Historia de Usuário) não existir ou caso o papel (role) do usuário não tiver a permissão de excluir.
 ///
 
-    virtual bool excluir(const Email&) = 0;
+    //virtual bool excluir(const Email&) = 0;
+    virtual bool excluirProjeto(const Codigo&) = 0;
+    virtual bool excluirSprint(const Codigo&) = 0;
+    virtual bool excluirHistoria(const Codigo&) = 0;
+
+///
+/// Executa a ação de ler os dados do usuário.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso os dados existam e forem lidos com sucesso.
+/// - Retorna false caso os nao existam ou nao forem lidos com sucesso.
+///
+
+    virtual bool lerConta(Pessoa&) = 0;
+
+///
+/// Executa a ação de atualizar os dados do perfil do usuário.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso os dados existam e forem atualizados com sucesso.
+/// - Retorna false caso os dados nao existam ou nao forem atualizados com sucesso.
+///
+
+    virtual bool atualizarConta(const Pessoa&) = 0;
+
+///
+/// Executa a ação de excluir a conta do usuário.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso a conta exista e for excluida.
+/// - Retorna false caso a conta nao exista ou nao for possível exclui-la.
+///
+
+    virtual bool excluirConta(const Email&) = 0;
+
+///
+/// Associações.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso...
+/// - Retorna false caso...
+///
+
+    virtual bool relacaoHis_Pes(const Email&, const Codigo&, int) = 0;
+    virtual bool listarHist(const Codigo&, int) = 0;
+    virtual bool listarHist(const Email&) = 0;
+    virtual bool moverHisProj_Sprint(const Codigo&, const Codigo&) = 0;
+    virtual bool atualizarEstado(const Estado&, const Codigo&) = 0;
+    virtual bool listarSprint(const Codigo&) = 0;
+    virtual bool listarProjetos(const Email&) = 0;
 
 ///
 /// Método destrutor virtual da interface.
 ///
 
-    virtual ~ISPessoa(){}
+    virtual ~ISGestao(){}
 };
 
 
@@ -274,7 +342,9 @@ public:
 /// - Retorna false caso (Projeto, Plano de Sprint ou Historia de Usuário) ja exista no banco de dados.
 ///
 
-    virtual bool criar(const Pessoa&) = 0;
+    virtual bool criarProjeto(const Projeto&, const Email&) = 0;
+    virtual bool criarSprint(const Plano_de_Sprint&, const Codigo&) = 0;
+    virtual bool criarHistoria(const Historia_de_usuario&, const Codigo&) = 0;
 
 ///
 /// Realiza a ação de ler processada pela camada de serviço.
@@ -283,11 +353,14 @@ public:
 ///
 /// @return
 ///
-/// - Retorna true caso exista no banco de dados e tenha sido possível mostrar as informações do(a) (Projeto, Plano de Sprint ou Historia de Usuário).
-/// - Retorna false caso não exista o(a) (Projeto, Plano de Sprint ou Historia de Usuário) no banco de dados.
+/// - Retorna true caso exista no banco de dados e tenha sido possível mostrar as informações do(a) (Conta, Projeto, Plano de Sprint ou Historia de Usuário).
+/// - Retorna false caso não exista o(a) (Conta, Projeto, Plano de Sprint ou Historia de Usuário) no banco de dados.
 ///
 
-    virtual bool ler(Pessoa&) = 0;
+    virtual bool lerConta(Pessoa&) = 0;
+    virtual bool lerProjeto(Projeto&) = 0;
+    virtual bool lerSprint(Plano_de_Sprint&) = 0;
+    virtual bool lerHistoria(Historia_de_usuario&) = 0;
 
 ///
 /// Realiza a ação de atualizar processada pela camada de serviço.
@@ -296,11 +369,14 @@ public:
 ///
 /// @return
 ///
-/// - Retorna true caso exista no banco de dados e tenha sido possível atualizar os dados do(a) (Projeto, Plano de Sprint ou Historia de Usuário).
-/// - Retorna false caso não exista o(a) (Projeto, Plano de Sprint ou Historia de Usuário) no banco de dados.
+/// - Retorna true caso exista no banco de dados e tenha sido possível atualizar os dados do(a) (Conta, Projeto, Plano de Sprint ou Historia de Usuário).
+/// - Retorna false caso não exista o(a) (Conta, Projeto, Plano de Sprint ou Historia de Usuário) no banco de dados.
 ///
 
-    virtual bool atualizar(const Pessoa&) = 0;
+    virtual bool atualizarConta(const Pessoa&) = 0;
+    virtual bool atualizarProjeto(const Projeto&) = 0;
+    virtual bool atualizarSprint(const Plano_de_Sprint&) = 0;
+    virtual bool atualizarHistoria(const Historia_de_usuario&) = 0;
 
 ///
 /// Realiza a ação de excluir processada pela camada de serviço.
@@ -310,87 +386,39 @@ public:
 /// @return
 ///
 /// - Retorna true caso exista no banco de dados e tenha sido possível excluir o(a) (Projeto, Plano de Sprint ou Historia de Usuário).
-/// - Retorna false caso não exista o(a) (Projeto, Plano de Sprint ou Historia de Usuário) no banco de dados.
+/// - Retorna false caso não exista o(a) (Conta, Projeto, Plano de Sprint ou Historia de Usuário) no banco de dados.
 ///
 
-    virtual bool excluir(const Email&) = 0;
-
-    virtual bool criarProjeto(const Projeto&) = 0;
-    virtual bool lerProjeto(Projeto&) = 0;
-    virtual bool atualizarProjeto(const Projeto&) = 0;
+    virtual bool excluirConta(const Email&) = 0;
     virtual bool excluirProjeto(const Codigo&) = 0;
+    virtual bool excluirSprint(const Codigo&) = 0;
+    virtual bool excluirHistoria(const Codigo&) = 0;
+
+///
+/// Associações.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso...
+/// - Retorna false caso...
+///
+
+    virtual bool relacaoHis_Pes(const Email&, const Codigo&, int) = 0;
+    virtual bool listarHistP(const Codigo&) = 0;
+    virtual bool listarHistS(const Codigo&) = 0;
+    virtual bool listarHistE(const Email&) = 0;
+    virtual bool moverHisProj_Sprint(const Codigo&, const Codigo&) = 0;
+    virtual bool atualizarEstado(const Estado&, const Codigo&) = 0;
+    virtual bool listarSprint(const Codigo&) = 0;
+    virtual bool listarProjetos(const Email&) = 0;
 
 ///
 /// Método destrutor virtual da interface.
 ///
-    virtual bool criarSprint(const Plano_de_Sprint&) = 0;
-    virtual bool lerSprint(Plano_de_Sprint&) = 0;
-    virtual bool atualizarSprint(const Plano_de_Sprint&) = 0;
-    virtual bool excluirSprint(const Codigo&) = 0;
-    virtual bool criarHistoria(const Historia_de_usuario&) = 0;
-    virtual bool lerHistoria(Historia_de_usuario&) = 0;
-    virtual bool atualizarHistoria(const Historia_de_usuario&) = 0;
-    virtual bool excluirHistoria(const Codigo&) = 0;
+
     virtual ~IBancoDados(){}
 };
-///
-/// Interface de projeto da camada de apresentacao.
-///
-class IAProjeto{
-public:
-    virtual void executar(const Email&) = 0;
-    virtual ~IAProjeto(){}
-};
 
-///
-/// Interface de projeto da camada de servico.
-///
-class ISProjeto{
-public:
-    virtual bool criar(const Projeto&) = 0;
-    virtual bool ler(Projeto&) = 0;
-    virtual bool atualizar(const Projeto&) = 0;
-    virtual bool excluir(const Codigo&) = 0;
-    virtual ~ISProjeto(){}
-};
-///
-/// Interface de plano de sprint da camada de apresentacao.
-///
-class IAPlanoSprint{
-public:
-    virtual void executar(const Email&) = 0;
-    virtual ~IAPlanoSprint(){}
-};
-
-///
-/// Interface de plano de sprint da camada de servico.
-///
-class ISPlanoSprint{
-public:
-    virtual bool criar(const Plano_de_Sprint&) = 0;
-    virtual bool ler(Plano_de_Sprint&) = 0;
-    virtual bool atualizar(const Plano_de_Sprint&) = 0;
-    virtual bool excluir(const Codigo&) = 0;
-    virtual ~ISPlanoSprint(){}
-};
-///
-/// Interface de historia de usuario da camada de apresentacao.
-///
-class IAHistoria{
-public:
-    virtual void executar(const Email&) = 0;
-    virtual ~IAHistoria(){}
-};
-
-///
-/// Interface de historia de usuario da camada de servico.
-///
-class ISHistoria{
-public:
-    virtual bool criar(const Historia_de_usuario&) = 0;
-    virtual bool ler(Historia_de_usuario&) = 0;
-    virtual bool atualizar(const Historia_de_usuario&) = 0;
-    virtual bool excluir(const Codigo&) = 0;
-    virtual ~ISHistoria(){}
-};
 #endif // INTERFACES_HPP_INCLUDED

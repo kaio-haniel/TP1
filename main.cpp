@@ -5,41 +5,30 @@
 using namespace std;
 
 int main(){
+// ============= Modulo de Apresentacao principal =============
+
     // camada de persistencia (banco unico)
     CntrBancoDados bancoDados;
 
     // camada de servico
     CntrServicoAutenticacao servicoAutenticacao;
     CntrServicoCadastro     servicoCadastro;
-    CntrServicoPessoa       servicoPessoa;
-    CntrServicoProjeto      servicoProjeto;
-    CntrServicoPlanoSprint  servicoSprint;
+    CntrServicoGestao       servicoGestao;
 
     // camada de apresentacao
     CntrApresentacaoAutenticacao apresentacaoAutenticacao;
     CntrApresentacaoCadastro     apresentacaoCadastro;
-    CntrApresentacaoPessoa       apresentacaoPessoa;
-    CntrApresentacaoProjeto      apresentacaoProjeto;
-    CntrApresentacaoPlanoSprint  apresentacaoSprint;
-    // camada de história
-    CntrServicoHistoria       servicoHistoria;
-    CntrApresentacaoHistoria  apresentacaoHistoria;
-    servicoHistoria.setCntrBancoDados(&bancoDados);
-    apresentacaoHistoria.setCntrServicoHistoria(&servicoHistoria);
+    CntrAGestao                  apresentacaoGestao;
 
     // ligacoes servico -> banco
     servicoAutenticacao.setCntrBancoDados(&bancoDados);
     servicoCadastro.setCntrBancoDados(&bancoDados);
-    servicoPessoa.setCntrBancoDados(&bancoDados);
-    servicoProjeto.setCntrBancoDados(&bancoDados);
-    servicoSprint.setCntrBancoDados(&bancoDados);
+    servicoGestao.setCntrBancoDados(&bancoDados);
 
     // ligacoes apresentacao -> servico
     apresentacaoAutenticacao.setCntrServicoAutenticacao(&servicoAutenticacao);
     apresentacaoCadastro.setCntrServicoCadastro(&servicoCadastro);
-    apresentacaoPessoa.setCntrServicoPessoa(&servicoPessoa);
-    apresentacaoProjeto.setCntrServicoProjeto(&servicoProjeto);
-    apresentacaoSprint.setCntrServicoSprint(&servicoSprint);
+    apresentacaoGestao.setCntrServicoGestao(&servicoGestao);
 
     // MENU INICIAL: Login ou Cadastro
     int inicial;
@@ -73,22 +62,7 @@ int main(){
 
     // se autenticou, abre o menu principal
     if(autenticado){
-        int op;
-        do {
-            cout << "\n========= MENU PRINCIPAL =========\n";
-            cout << "1 - Gerir Pessoas\n";
-            cout << "2 - Gerir Projetos\n";
-            cout << "3 - Gerir Planos de Sprint\n";
-            cout << "4 - Gerir Historias de Usuario\n";
-            cout << "0 - Sair\n";
-            cout << "Escolha: ";
-            cin >> op;
-            if(op == 1)      apresentacaoPessoa.executar(email);
-            else if(op == 2) apresentacaoProjeto.executar(email);
-            else if(op == 3) apresentacaoSprint.executar(email);
-            else if(op == 4) apresentacaoHistoria.executar(email);
-            else if(op != 0) cout << "Opcao invalida.\n";
-        } while(op != 0);
+        apresentacaoGestao.executar(email);
     }
 
     return 0;
