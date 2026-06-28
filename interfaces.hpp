@@ -269,22 +269,96 @@ public:
     virtual bool excluirConta(const Email&) = 0;
 
 ///
-/// Associações.
+/// Estabelece ou remove associação entre Historia de Usuario e Pessoa.
+/// Se o parametro <u>int</u> for igual a 1, é estabelecido a associação,
+/// se for igual a 0, é removido a associação.
+///
+///
+/// @return
+///
+/// - Retorna true caso seja (estabelecido ou removido) a associação com sucesso.
+/// - Retorna false caso não seja (estabelecido ou removido) a associação com sucesso.
+///
+
+    virtual bool relacaoHis_Pes(const Email&, const Codigo&, int) = 0;
+
+///
+/// Lista Historias de Usuario associadas a Projeto ou Plano de Sprint.
+/// Se o parametro <u>int</u> for igual a 1, é listado as Historias de Usuario associadas a Projeto,
+/// se for igual a 2, é listado as Historias de Usuario associadas a Plano de Sprint.
+///
+///
+/// @return
+///
+/// - Retorna true caso seja listado as Historias de Usuario associadas a (Projeto ou Plano de Sprint) com sucesso.
+/// - Retorna false caso não seja listado as Historias de Usuario associadas a (Projeto ou Plano de Sprint) com sucesso.
+///
+
+    virtual bool listarHist(const Codigo&, int) = 0;
+
+///
+/// Lista Historias de Usuario associadas a Pessoa.
 ///
 ///
 ///
 /// @return
 ///
-/// - Retorna true caso...
-/// - Retorna false caso...
+/// - Retorna true caso seja listado as Historias de Usuario associadas a Pessoa com sucesso.
+/// - Retorna false caso não seja listado as Historias de Usuario associadas a Pessoa com sucesso.
 ///
 
-    virtual bool relacaoHis_Pes(const Email&, const Codigo&, int) = 0;
-    virtual bool listarHist(const Codigo&, int) = 0;
     virtual bool listarHist(const Email&) = 0;
+
+///
+/// Move Historia de Usuario de Projeto para Plano de Sprint.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso seja movido com sucesso.
+/// - Retorna false caso não seja movido com sucesso.
+///
+
     virtual bool moverHisProj_Sprint(const Codigo&, const Codigo&) = 0;
+
+///
+/// Altera estado de Historia de Usuario.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso o estado seja alterado com sucesso.
+/// - Retorna false caso o estado não seja alterado com sucesso.
+///
+
     virtual bool atualizarEstado(const Estado&, const Codigo&) = 0;
+
+///
+/// Lista Planos de Sprint associados a Projeto.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso seja listado os Planos de Sprint associados a Projeto com sucesso.
+/// - Retorna false caso não seja listado os Planos de Sprint associados a Projeto com sucesso.
+///
+
     virtual bool listarSprint(const Codigo&) = 0;
+
+///
+/// Lista Projetos associados a Pessoa.
+///
+///
+///
+/// @return
+///
+/// - Retorna true caso seja listado os Projetos associados a Pessoa com sucesso.
+/// - Retorna false caso não seja listado os Projetos associados a Pessoa com sucesso.
+///
+
     virtual bool listarProjetos(const Email&) = 0;
 
 ///
@@ -395,23 +469,95 @@ public:
     virtual bool excluirHistoria(const Codigo&) = 0;
 
 ///
-/// Associações.
-///
+/// Estabelece ou remove associação entre Historia de Usuario e Pessoa no banco de dados por meio de uma Foreign Key.
+/// Se o parametro <u>int</u> for igual a 1, é alocado o codigo Primary Key da Pessoa na Foreign Key da Historia de Usuario,
+/// se for igual a 0, é removido o codigo Primary Key da Pessoa na Foreign Key da Historia de Usuario.
 ///
 ///
 /// @return
 ///
-/// - Retorna true caso...
-/// - Retorna false caso...
+/// - Retorna true caso seja (alocado ou removido) o codigo Primary Key da Pessoa na Foreign Key da Historia de Usuario com sucesso.
+/// - Retorna false caso não seja (alocado ou removido) o codigo Primary Key da Pessoa na Foreign Key da Historia de Usuario com sucesso.
 ///
 
     virtual bool relacaoHis_Pes(const Email&, const Codigo&, int) = 0;
+
+///
+/// Procura no banco de dados e mostra Historias de Usuario que tem Foreign Key com o valor da Primary Key de um Projeto.
+///
+/// @return
+///
+/// - Retorna true caso existam as Historias de Usuario associadas a Projeto.
+/// - Retorna false caso não existam as Historias de Usuario associadas a Projeto.
+///
+
     virtual bool listarHistP(const Codigo&) = 0;
+
+///
+/// Procura no banco de dados e mostra Historias de Usuario que tem Foreign Key com o valor da Primary Key de um Plano de Sprint.
+///
+/// @return
+///
+/// - Retorna true caso existam as Historias de Usuario associadas a Plano de Sprint.
+/// - Retorna false caso não existam as Historias de Usuario associadas a Plano de Sprint.
+///
+
     virtual bool listarHistS(const Codigo&) = 0;
+
+///
+/// Procura no banco de dados e mostra Historias de Usuario que tem Foreign Key com o valor da Primary Key de uma Pessoa.
+///
+/// @return
+///
+/// - Retorna true caso existam as Historias de Usuario associadas a Pessoa.
+/// - Retorna false caso não existam as Historias de Usuario associadas a Pessoa.
+///
+
     virtual bool listarHistE(const Email&) = 0;
+
+///
+/// Remove o valor da Primary Key do Projeto na Foreign key da Historia de Usuário e
+/// aloca o valor da Primary Key do Plano de Sprint no lugar.
+///
+/// @return
+///
+/// - Retorna true caso tenha sido alterado com sucesso a Foreign Key.
+/// - Retorna false caso não tenha sido alterado com sucesso a Foreign Key.
+///
+
     virtual bool moverHisProj_Sprint(const Codigo&, const Codigo&) = 0;
+
+///
+/// Procura a Historia de Usuario no banco de dados pelo codigo e altera o valor do Estado.
+///
+/// @return
+///
+/// - Retorna true caso tenha sido alterado com sucesso o valor de Estado.
+/// - Retorna false caso não tenha sido alterado com sucesso o valor de Estado.
+///
+
     virtual bool atualizarEstado(const Estado&, const Codigo&) = 0;
+
+///
+/// Procura no banco de dados e mostra Planos de Sprint que tem Foreign Key com o valor da Primary Key de um Projeto.
+///
+/// @return
+///
+/// - Retorna true caso existam os Planos de Sprint associados a Projeto.
+/// - Retorna false caso não existam os Planos de Sprint associados a Projeto.
+///
+
     virtual bool listarSprint(const Codigo&) = 0;
+
+///
+/// Procura no banco de dados e mostra Projetos que tem Foreign Key com o valor da Primary Key de uma Pessoa.
+///
+/// @return
+///
+/// - Retorna true caso existam os Projetos associados a Pessoa.
+/// - Retorna false caso não existam os Projetos associados a Pessoa.
+///
+
     virtual bool listarProjetos(const Email&) = 0;
 
 ///
