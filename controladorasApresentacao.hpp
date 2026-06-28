@@ -36,6 +36,7 @@ private:
     bool lerDadosHistoria(Historia_de_usuario&);
     bool lerCodigoHistoria(Codigo&);
     void exibirHistoria(const Historia_de_usuario&);
+    bool lerEstado(Estado&);
     void menuConta(const Email&);
     void menuProjetos(const Email&);
     void menuSprints(const Email&);
