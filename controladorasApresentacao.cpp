@@ -505,6 +505,15 @@ void CntrAGestao::exibirHistoria(const Historia_de_usuario& h){
     std::cout << "------------------------------------\n";
 }
 
+bool CntrAGestao::lerEstado(Estado& e){
+    int escolha;
+    std::cout << "Estado (1-A FAZER, 2-FAZENDO, 3-FEITO): ";
+    std::cin >> escolha;
+    try{ e.setEstado(escolha); }
+    catch (std::invalid_argument& exc) { std::cout << "Escolha invalida: " << exc.what() << "\n"; return false; }
+    return true;
+}
+
 void CntrAGestao::menuHistorias(const Email& e){
     int opcao;
     do {
@@ -517,6 +526,7 @@ void CntrAGestao::menuHistorias(const Email& e){
         std::cout << " 8 - Listar HISTORIAS DE USUARIO associadas a PLANO DE SPRINT\n";
         std::cout << " 9 - Listar HISTORIAS DE USUARIO associadas a PESSOA\n";
         std::cout << "10 - Mover HISTORIA DE USUARIO de PROJETO para PLANO DE SPRINT\n";
+        std::cout << "11 - Alterar ESTADO de HISTORIA DE USUARIO\n";
         std::cout << " 0 - Voltar\n";
         std::cout << "Escolha: ";
         std::cin  >> opcao;
@@ -644,6 +654,21 @@ void CntrAGestao::menuHistorias(const Email& e){
                         std::cout << "A historia de usuario foi movida de projeto para plano de sprint com sucesso!\n";
                     else std::cout << "Nao foi possivel mover a historia de usuario de projeto para plano de sprint.\n";
                 }
+                break;
+            }
+            case 11: {
+                if(papel != "MESTRE SCRUM" && papel != "PROPIETARIO DE PRODUTO"){
+                    std::cout << "Voce nao tem a permissao necessaria para alterar o estado da historia de usuario.\n";
+                    break;
+                }
+                Codigo c;
+                Estado est;
+                if(lerEstado(est)&&lerCodigoHistoria(c)){
+                    if(cntrServicoGestao->atualizarEstado(est, c))
+                        std::cout << "O estado da historia de usuario foi alterado com sucesso!\n";
+                    else std::cout << "O estado da historia de usuario nao foi alterado com sucesso!\n";
+                }
+                break;
             }
             case 0: std::cout << "Voltando...\n"; break;
             default: std::cout << "Opcao invalida.\n";
